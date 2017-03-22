@@ -1,40 +1,41 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
+# TESTE SOUL DIGITAL - DESENVOLVEDOR PHP
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+Implemente o sistema abaixo respeitando os requisitos funcionais e casos de uso apresentados. É importante que você nos envie uma estimativa de tempo para a conclusão deste teste assim que tiver claro o entendimento deste e-mail.
 
-## About Laravel
+Sistema de Tickets
+Descrição: Se trata de um sistema fictício para gestão de tickets de suporte de uma aplicação.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
+## Especificações
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+ *   Implementar o sistema abaixo utilizando Laravel versão 5.3 ou maior.
+ *  Devem existir dois tipos de permissão de acesso - admin e cliente.
+ *   Um usuário comum pode realizar seu cadastro no site, utilizando obrigatoriamente nome, e-mail, e senha. O campo e-mail deverá ser único em todo o site, e a senha deverá ter pelo menos 6 caracteres e conter letras e números.
+ *   O acesso das páginas internas deverão ser restritos a usuários logados no site.
+ *   Quando for criado um novo ticket por um usuário, o usuário admin recebe e-mail.
+ *   Quando uma resposta for enviada para um ticket, o usuário criador do ticket recebe um e-mail de alerta com o link para abrir o ticket.
+ *   Os arquivos de CSS e JS do front end deverão ser minificados.
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications. A superb combination of simplicity, elegance, and innovation give you tools you need to build any application with which you are tasked.
 
-## Learning Laravel
+## CASOS DE USO
 
-Laravel has the most extensive and thorough documentation and video tutorial library of any modern web application framework. The [Laravel documentation](https://laravel.com/docs) is thorough, complete, and makes it a breeze to get started learning the framework.
+##### Usuário 
+Pode criar tickets
+Só pode ver os tickets que criou.
+Só pode responder um ticket aberto por ele mesmo.
 
-If you're not in the mood to read, [Laracasts](https://laracasts.com) contains over 900 video tutorials on a range of topics including Laravel, modern PHP, unit testing, JavaScript, and more. Boost the skill level of yourself and your entire team by digging into our comprehensive video library.
+##### Admin
+Pode ver e responder todos os tickets.
 
-## Contributing
+##### Entidades
+Implemente obrigatoriamente a entidade Ticket e Resposta. Ticket deverá ter pelo menos um assunto e uma descrição.
+Um usuário poderá ter vários tickets, e um ticket poderá ter várias respostas.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
 
-## Security Vulnerabilities
+## COMO ENVIAR
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+Enviar arquivo zip ou repositório GIT para download do teste, bem como as instruções para instalação do projeto.
+Enviar dump SQL para criação do banco de dados em ambiente local ou comando de migrations.
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+## Intruções de instalação:
