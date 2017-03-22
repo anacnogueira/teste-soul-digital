@@ -13,3 +13,9 @@
         'csrfToken' => csrf_token(),
     ]) !!};
 </script>
+<script src="{{ asset('/plugins/jquery-2.2.3.min.js') }}"></script>
+<script src="{{ asset('/plugins/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('/plugins/dataTables.bootstrap.min.js') }}"></script>
+<script src="{{ asset('/plugins/jquery.slimscroll.min.js') }}"></script>
+<script src="{{ asset('/plugins/sweetalert.min.js') }}"></script>
+<script src="{{ asset('/js/list.js') }}"></script>

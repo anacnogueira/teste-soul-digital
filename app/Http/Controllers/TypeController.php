@@ -3,9 +3,23 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Entities\Type;
+use Illuminate\Support\Facades\Validator;
 
 class TypeController extends Controller
 {
+    private $type;
+
+
+    /**
+     * Class Constructor
+     * @param    $type   
+     */
+    public function __construct(Type $type)
+    {
+        $this->type = $type;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +27,9 @@ class TypeController extends Controller
      */
     public function index()
     {
-        //
+        $types = $this->type->all();
+
+        return view('types.index', compact('types'));
     }
 
     /**
