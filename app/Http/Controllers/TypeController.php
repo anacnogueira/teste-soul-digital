@@ -39,7 +39,7 @@ class TypeController extends Controller
      */
     public function create()
     {
-        //
+        return view('types.create');
     }
 
     /**
@@ -61,7 +61,7 @@ class TypeController extends Controller
      */
     public function show($id)
     {
-        //
+        return view('types.show', compact('status'));
     }
 
     /**
@@ -72,7 +72,7 @@ class TypeController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('types.edit', compact('status'));
     }
 
     /**

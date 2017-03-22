@@ -6,7 +6,6 @@
 
 @section('contentheader_title')
     Tipos
-
 @endsection
 
 @section('contentheader_description')
