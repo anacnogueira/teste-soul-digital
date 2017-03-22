@@ -54,7 +54,7 @@ class AcachaAdminLTELaravelTest extends BrowserKitTest
      */
     public function testLandingPageWithUserLogged()
     {
-        $user = factory(App\User::class)->create();
+        $user = factory(App\Entities\User::class)->create();
 
         $this->actingAs($user)
             ->visit('/')

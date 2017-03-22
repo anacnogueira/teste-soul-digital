@@ -44,7 +44,3 @@ Enviar dump SQL para criação do banco de dados em ambiente local ou comando de
 2. Altere o arquivo **.env.example**  para **.env** e altere as configurações de banco de dados (host, nome do banco, usuario e senha)
 3. Rode o comando `php artisan migrate --seed`  no terminal para criar as tabelas e popular a tabela users
 4. Rode o comando `composer update` no terminal para instalar as depedências
-
-#### Login do usuário administrador
-Usuário: anacnogueira@gmail.com 
-Senha: 123456

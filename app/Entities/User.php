@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Entities;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password','image','type_id'
     ];
 
     /**
@@ -26,4 +26,14 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function type()
+    {
+        return $this->belongsTo('App\Entities\Type');
+    }
+
+    public function ticket()
+    {
+        return $this->hasMany('App\Entities\Ticket');
+    }
 }
