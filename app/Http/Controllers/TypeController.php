@@ -50,7 +50,17 @@ class TypeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = $this->validates($request);
+
+        if ($validator->fails()){
+            return redirect()->route('tipos.create')
+            ->withErrors($validator)
+            ->withInput();           
+        }
+
+        $group = $this->type->create($request->all());
+ 
+        return redirect()->route('tipos.index');
     }
 
     /**
@@ -96,5 +106,12 @@ class TypeController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    private function validates($request)
+    {
+        return Validator::make($request->all(), [
+            'name' => 'required', 
+        ]);
     }
 }
