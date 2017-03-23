@@ -118,7 +118,9 @@ class TicketController extends Controller
      */
     public function edit($id)
     {
-        //
+        $ticket = $this->ticket->find($id);
+
+        return view('tickets.edit', compact('ticket'));
     }
 
     /**
