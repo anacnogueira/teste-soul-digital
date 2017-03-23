@@ -136,7 +136,41 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        if (str_contains(URL::previous(),"settings")){
+            $failure_route = 'settings';
+            $success_route = 'settings';
+        } else {
+            $failure_route = 'usuarios.edit';
+            $success_route = 'usuarios.index';
+        }
+
+        $user = $this->user->find($id);
+
+        $validator = $this->validatesUpdate($request->all());
+
+        if ($validator->fails()){
+            session()->flash('error','Não foi possível atualizar o usuário.');
+            return redirect()->route($failure_route,['id' => $id])
+            ->withErrors($validator)
+            ->withInput();
+        }
+
+        $data = $request->toArray();
+        if(!empty($data['password'])){
+            $data['password'] = bcrypt($data['password']); 
+        } else {
+            $data['password'] = $user->password;
+        }
+
+        //Upload Photo
+        if ($request->hasFile('file') && $request->file('file')->isValid()) {
+            $data['image'] = $this->manageFile->store($request, $request->input('name').' '.date('dmYHis'), "storage/users", $request->input('oldfile'));
+        }
+            
+        $user->update($data);
+
+        session()->flash('success', 'Usuário Atualizado com sucesso');
+        return redirect()->route($success_route);
     }
 
     /**
@@ -164,6 +198,29 @@ class UserController extends Controller
             'name' => 'required',  
             'email' => 'required|unique:users|email',
             'password' => 'required|min:6|regex:/^(?=.*[a-zA-Z])(?=.*[a-zA-Z])(?=.*\d).+$/',
+            'type_id' => 'required',
+
+        ];
+
+
+        $messages = [
+            'required' => 'O campo é obrigatório.',
+            'email.unique' => 'E-mail já cadastrado',
+            'email.email' => 'Forneça um formato de e-mail válido',
+            'password.min' => 'A senha deve conter no minino 6 caracteres',
+            'password.regex' => 'A senha deve conter ao menos uma letra e um número'
+        ];
+
+        return Validator::make($request, $rules, $messages);
+   }
+
+   private function validatesUpdate($request)
+   {    
+
+        $rules = [
+            'name' => 'required',  
+            'email' => 'required|email',
+            'password' => 'nullable|min:6|regex:/^(?=.*[a-zA-Z])(?=.*[a-zA-Z])(?=.*\d).+$/',
             'type_id' => 'required',
 
         ];
