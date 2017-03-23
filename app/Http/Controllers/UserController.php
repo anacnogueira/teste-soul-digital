@@ -60,7 +60,6 @@ class UserController extends Controller
             $types[$item->id] = $item->name;   
         }
 
-
         return view('users.create', compact('types'));
     }
 

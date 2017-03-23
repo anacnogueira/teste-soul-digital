@@ -103,7 +103,9 @@ class TicketController extends Controller
     public function show($id)
     {
         $statuses = $this->statuses;
-        $ticket = $this->ticket->with('resposta')->find($id);
+        $ticket = $this->ticket
+        ->with('resposta')
+        ->find($id);
 
         return view('tickets.show', compact('ticket','statuses'));
     }

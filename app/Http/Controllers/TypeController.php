@@ -58,7 +58,7 @@ class TypeController extends Controller
             ->withInput();           
         }
 
-        $group = $this->type->create($request->all());
+        $this->type->create($request->all());
  
         return redirect()->route('tipos.index');
     }

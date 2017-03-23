@@ -26,9 +26,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('tipos', 'TypeController');
     Route::resource('usuarios', 'UserController');
     Route::resource('tickets', 'TicketController');
-    Route::resource('respostas', 'RespostaController');
     
-    //Route::post('tickets/answer', ['as' =>'tickets.answer', 'uses' => 'TicketController@answer']);
+    
+    Route::post('respostas/store/{ticket_id}', ['as' =>'respostas.store', 'uses' => 'RespostaController@store']);
     
 
     //Perfil

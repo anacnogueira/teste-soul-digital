@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Resposta extends Model
 {
     protected $fillable = [
-        'ticket_id', 'description'
+        'ticket_id', 'user_id','description'
     ];
 
     public function ticket()

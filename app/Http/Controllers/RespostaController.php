@@ -3,27 +3,25 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Entities\Resposta;
+use App\Entities\Ticket;
+
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class RespostaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
+    private $resposta;
+    private $ticket;
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * Class Constructor
+     * @param    $resposta   
      */
-    public function create()
+    public function __construct(Resposta $resposta, Ticket $ticket)
     {
-        //
+        $this->resposta = $resposta;
+        $this->ticket = $ticket;
     }
 
     /**
@@ -32,53 +30,46 @@ class RespostaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $ticketId)
     {
-        //
-    }
+        $user = Auth::user();
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+        $validator = $this->validates($request->all());
+      
+        if ($validator->fails()){
+            return redirect()->route('tickets.show',['ticket_id' => $ticketId])
+            ->withErrors($validator)
+            ->withInput();           
+        } 
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+        $data = $request->toArray();       
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+        //Change Ticket status
+        $this->ticket->find($ticketId)->update([
+            'status' => $data['status']
+        ]);
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+        $this->resposta->create([
+            'ticket_id' => $ticketId,
+            'user_id' => $user->id,
+            'description' => $data['description']
+        ]);
+ 
+        return redirect()->route('tickets.show', ['ticket_id' => $ticketId]);
+    }
+    
+    private function validates($request)
     {
-        //
+        $rules = [
+            'status' => 'required',  
+            'description' => 'required',
+        ];
+
+
+        $messages = [
+            'required' => 'O campo é obrigatório.',
+        ];
+
+        return Validator::make($request, $rules, $messages);
     }
 }

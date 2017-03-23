@@ -16,7 +16,7 @@
 	<div class="container-fluid spark-screen">
 		<div class="row">
 			<div class="col-md-12">
-                {!! Form::open(['route' => 'respostas.store']) !!}
+                {!! Form::open(['route'=>['respostas.store', 'ticket_id' => $ticket->id]]) !!}
                 <div class="row">
                     <div class="col-md-12">
                         <div class="box box-danger">
@@ -37,11 +37,7 @@
                                     {!! Form::label('created_at', 'Data') !!} 
                                     <div class="form-control">{{ $ticket->created_at }}</div>    
                                 </div>
-                                <div class="form-group @if ($errors->has('status')) has-error @endif">
-                                    {!! Form::label('status', 'Status*') !!} 
-                                    {!! Form::select('status', $statuses, $ticket->status, ['class' => 'form-control', 'placeholder' => 'Selecione o status...']); !!}            
-                                    @if ($errors->has('status')) <span class="help-block">{{ $errors->first('status') }}</span> @endif
-                                </div>
+                                
                                 <hr>
                                 <dl>
                                 @foreach ($ticket->resposta as $resposta)
@@ -55,6 +51,11 @@
                                 @endforeach
                                 </dl>
                                 <hr>
+                                <div class="form-group @if ($errors->has('status')) has-error @endif">
+                                    {!! Form::label('status', 'Status*') !!} 
+                                    {!! Form::select('status', $statuses, $ticket->status, ['class' => 'form-control', 'placeholder' => 'Selecione o status...']); !!}            
+                                    @if ($errors->has('status')) <span class="help-block">{{ $errors->first('status') }}</span> @endif
+                                </div>
                                 <div class="form-group @if ($errors->has('description')) has-error @endif">
                                     {!! Form::label('description', 'Resposta*') !!} 
                                     {!! Form::textarea('description', null, $attributes = ['class' => 'form-control']); !!}
@@ -70,6 +71,31 @@
                     </div>
                 </div>			
                 {!! Form::close() !!}
+
+                   <div class="row">
+        <div class="col-md-12">
+            <div class="actions">
+                <ul>
+                    <li>
+                        <a href="{{ route('tickets.edit', ['id' => $ticket->id]) }}" class="btn btn-warning"><i class="fa fa-edit"></i> Editar </a> 
+                    </li>
+                    <li>
+                        <div style="float:left; margin-right: 10px">
+                            {!! Form::open(['route' => ['tickets.destroy', $ticket->id], 'method' => 'delete', 'id'=>'form'.$ticket->id]) !!}
+                                {!! Form::button('<i class="fa fa-times"></i> Excluir', ['type' => 'submit','class' => 'btn btn-danger','onclick'=>"deleteConfirm(event, $ticket->id)"]) !!}
+                            {!! Form::close() !!}                                                    
+                        </div> 
+                    </li>
+                    <li>
+                        <a href="{{ route('tickets.index') }}" class="btn btn-warning"><i class="fa fa-list-alt"></i> Listar </a> 
+                    </li>
+                    <li>
+                        <a href="{{ route('tickets.create') }}" class="btn btn-primary"><i class="fa fa-pencil" aria-hidden="true"></i> Novo Ticket</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
 			</div>
 		</div>
 	</div>
