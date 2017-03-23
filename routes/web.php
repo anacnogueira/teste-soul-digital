@@ -24,4 +24,6 @@ Route::group(['middleware' => 'auth'], function () {
     #adminlte_routes
 
     Route::resource('tipos', 'TypeController');
+    Route::resource('usuarios', 'UserController');
+    Route::resource('tickets', 'TicketController');
 });

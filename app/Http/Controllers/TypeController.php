@@ -86,7 +86,7 @@ class TypeController extends Controller
     {
         $type = $this->type->find($id);
 
-        return view('types.edit', compact($type));
+        return view('types.edit', compact('type'));
     }
 
     /**

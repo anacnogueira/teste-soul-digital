@@ -18,4 +18,5 @@
 <script src="{{ asset('/plugins/dataTables.bootstrap.min.js') }}"></script>
 <script src="{{ asset('/plugins/jquery.slimscroll.min.js') }}"></script>
 <script src="{{ asset('/plugins/sweetalert.min.js') }}"></script>
+<script src="{{ asset('/js/main.js') }}" type="text/javascript"></script>
 <script src="{{ asset('/js/list.js') }}"></script>

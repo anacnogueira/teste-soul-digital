@@ -3,9 +3,37 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Entities\User;
+use App\Entities\Type;
+
+use redeJacarei\Http\Requests;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Session;
+use App\Contracts\ManageFile as ManageFileInterface;
 
 class UserController extends Controller
 {
+    private $manageFile;
+    private $user;
+    private $type;
+
+
+    /**
+     * Class Constructor
+     * @param    $manageFile   
+     * @param    $user   
+     * @param    $type   
+     */
+    public function __construct(ManageFileInterface $manageFile, User $user, Type $type)
+    {
+        $this->manageFile = $manageFile;
+        $this->user = $user;
+        $this->type = $type;
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +41,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $users = $this->user->all();
+
+        return view('users.index', compact('users'));
     }
 
     /**
@@ -80,5 +110,11 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function settings()
+    {
+
+
     }
 }
