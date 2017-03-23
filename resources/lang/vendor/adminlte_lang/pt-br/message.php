@@ -24,6 +24,7 @@ return [
     'conditions'              => 'Termos e Condições',
     'register'                => 'Inscreva-se',
     'login'                   => 'Entrar',
+    'created_at'              => 'Cadastrado desde',  
     'membreship'              => 'Já sou cadastrado',
     'passwordclickreset'      => 'Clique aqui para redefinir sua senha:',
     'signGithub'              => 'Registre-se via Github',

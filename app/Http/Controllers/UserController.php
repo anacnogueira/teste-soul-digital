@@ -194,7 +194,12 @@ class UserController extends Controller
     public function settings()
     {
 
+        $user = Auth::user();
+        $user->img_path = !empty($user->image) ? 
+        "storage/users/".$user->image :
+        "img/user2-160x160.jpg";
 
+        return view('users.profile', compact('user'));
     }
 
 

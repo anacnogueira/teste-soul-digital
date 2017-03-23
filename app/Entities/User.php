@@ -4,6 +4,7 @@ namespace App\Entities;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Carbon\Carbon;
 
 class User extends Authenticatable
 {
@@ -35,5 +36,11 @@ class User extends Authenticatable
     public function ticket()
     {
         return $this->hasMany('App\Entities\Ticket');
+    }
+
+    public function getCreatedAtAttribute($value) {
+        $date = new \Carbon\Carbon($value);
+        $date->setLocale('pt_BR');
+        return $date->format('d/m/Y');
     }
 }
