@@ -50,21 +50,19 @@
                                                     </div>
                                                     <a href="{{ route('usuarios.edit',['id' => $user->id]) }}" class='btn btn-warning'><i class="fa fa-edit"></i> Editar</a>
                                                     &nbsp; &nbsp;
-                                                    <a href="{{ route('usuarios.show',['id' => $user['id']]) }}" class ='btn btn-primary'><i class="fa fa-eye"></i> Visualizar</a>
+                                                    <a href="{{ route('usuarios.show',['id' => $user->id]) }}" class ='btn btn-primary'><i class="fa fa-eye"></i> Visualizar</a>
                                                    &nbsp; &nbsp;
                                                 </td>
-                                                <td>{{ $user['group_name'] }}</td>
-                                                <td>{{ $user['email'] }}</td>
-                                                <td>{{ $user['status'] }}</td>
+                                                <td>{{ $user->type->name }}</td>
+                                                <td>{{ $user->email }}</td>
                                             </tr>
                                             @endforeach
                                         </tbody>
                                         <tfoot>
                                           <tr>
                                             <th rowspan="1" colspan="1">Nome</th>
-                                            <th rowspan="1" colspan="1">Grupo</th>
+                                            <th rowspan="1" colspan="1">Tipo</th>
                                             <th rowspan="1" colspan="1">E-mail</th>
-                                            <th rowspan="1" colspan="1">Status</th>
                                           </tr>
                                         </tfoot>
                                     </table>
