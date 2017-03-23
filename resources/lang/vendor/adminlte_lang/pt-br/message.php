@@ -22,7 +22,7 @@ return [
     'registermember'          => 'Cadastrar um novo usuário',
     'terms'                   => 'Eu aceito os termos',
     'conditions'              => 'Termos e Condições',
-    'register'                => 'Inscreva-se',
+    'register'                => 'Cadastrar',
     'login'                   => 'Entrar',
     'created_at'              => 'Cadastrado desde',  
     'membreship'              => 'Já sou cadastrado',

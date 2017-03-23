@@ -1,7 +1,7 @@
 @extends('adminlte::layouts.auth')
 
 @section('htmlheader_title')
-    Register
+    Cadastro
 @endsection
 
 @section('content')
@@ -10,42 +10,42 @@
     <div id="app">
         <div class="register-box">
             <div class="register-logo">
-                <a href="{{ url('/home') }}"><b>Admin</b>LTE</a>
+                <a href="{{ url('/home') }}"><b>Soul</b> Digital</a>
             </div>
 
-            @if (count($errors) > 0)
-                <div class="alert alert-danger">
-                    <strong>Whoops!</strong> {{ trans('adminlte_lang::message.someproblems') }}<br><br>
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
+            
 
             <div class="register-box-body">
                 <p class="login-box-msg">{{ trans('adminlte_lang::message.registermember') }}</p>
                 <form action="{{ url('/register') }}" method="post">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <div class="form-group has-feedback">
+                    <div class="form-group has-feedback{{ $errors->has('name') ? ' has-error' : '' }}">
                         <input type="text" class="form-control" placeholder="{{ trans('adminlte_lang::message.fullname') }}" name="name" value="{{ old('name') }}"/>
                         <span class="glyphicon glyphicon-user form-control-feedback"></span>
-                    </div>
-                    @if (config('auth.providers.users.field','email') === 'username')
-                        <div class="form-group has-feedback">
-                            <input type="text" class="form-control" placeholder="{{ trans('adminlte_lang::message.username') }}" name="username"/>
-                            <span class="glyphicon glyphicon-user form-control-feedback"></span>
-                        </div>
-                    @endif
+                        @if ($errors->has('name'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('name') }}</strong>
+                            </span>
+                        @endif
+                    </div>                    
 
-                    <div class="form-group has-feedback">
+                    <div class="form-group has-feedback{{ $errors->has('email') ? ' has-error' : '' }}">
                         <input type="email" class="form-control" placeholder="{{ trans('adminlte_lang::message.email') }}" name="email" value="{{ old('email') }}"/>
                         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                        @if ($errors->has('email'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('email') }}</strong>
+                            </span>
+                        @endif
                     </div>
-                    <div class="form-group has-feedback">
+                    <div class="form-group has-feedback{{ $errors->has('password') ? ' has-error' : '' }}">
                         <input type="password" class="form-control" placeholder="{{ trans('adminlte_lang::message.password') }}" name="password"/>
                         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                        @if ($errors->has('password'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('password') }}</strong>
+                            </span>
+                        @endif
                     </div>
                     <div class="form-group has-feedback">
                         <input type="password" class="form-control" placeholder="{{ trans('adminlte_lang::message.retrypepassword') }}" name="password_confirmation"/>
@@ -53,18 +53,10 @@
                     </div>
                     <div class="row">
                         <div class="col-xs-1">
-                            <label>
-                                <div class="checkbox_register icheck">
-                                    <label>
-                                        <input type="checkbox" name="terms">
-                                    </label>
-                                </div>
-                            </label>
+                            
                         </div><!-- /.col -->
                         <div class="col-xs-6">
-                            <div class="form-group">
-                                <button type="button" class="btn btn-block btn-flat" data-toggle="modal" data-target="#termsModal">{{ trans('adminlte_lang::message.terms') }}</button>
-                            </div>
+                            
                         </div><!-- /.col -->
                         <div class="col-xs-4 col-xs-push-1">
                             <button type="submit" class="btn btn-primary btn-block btn-flat">{{ trans('adminlte_lang::message.register') }}</button>

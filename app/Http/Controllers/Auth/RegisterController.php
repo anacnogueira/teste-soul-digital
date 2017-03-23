@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
+use App\Entities\User;
+use App\Entities\Type;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -61,13 +62,23 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
+        $rules = [
             'name'     => 'required|max:255',
-            'username' => 'sometimes|required|max:255|unique:users',
             'email'    => 'required|email|max:255|unique:users',
-            'password' => 'required|min:6|confirmed',
-            'terms'    => 'required',
-        ]);
+            'password' => 'required|min:6|regex:/^(?=.*[a-zA-Z])(?=.*[a-zA-Z])(?=.*\d).+$/|confirmed',
+        ];
+
+        $messages = [
+            'required' => 'O campo é obrigatório.',
+            'max' => 'Tamanho máximo de 255 caracteres excedido',
+            'email.unique' => 'E-mail já cadastrado',
+            'email.email' => 'Forneça um formato de e-mail válido',
+            'password.min' => 'A senha deve conter no minino 6 caracteres',
+            'password.regex' => 'A senha deve conter ao menos uma letra e um número',
+            'password.confirmed' => 'A confirmação de senha diferente'
+        ];
+
+        return Validator::make($data, $rules, $messages);
     }
 
     /**
@@ -78,14 +89,15 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $type = Type::where('name', 'cliente')->firstOrFail();
+
         $fields = [
             'name'     => $data['name'],
             'email'    => $data['email'],
             'password' => bcrypt($data['password']),
+            'type_id'  => $type->id,
         ];
-        if (config('auth.providers.users.field','email') === 'username' && isset($data['username'])) {
-            $fields['username'] = $data['username'];
-        }
+
         return User::create($fields);
     }
 }
