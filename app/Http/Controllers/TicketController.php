@@ -132,7 +132,19 @@ class TicketController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $ticket = $this->ticket->find($id);
+
+        $validator = $this->validates($request->all());
+
+        if ($validator->fails()){
+            return redirect()->route('tickets.edit',['id' => $id])
+            ->withErrors($validator)
+            ->withInput();           
+        }
+
+        $ticket->update($request->all());
+              
+        return redirect()->route('tickets.index');
     }
 
     /**
