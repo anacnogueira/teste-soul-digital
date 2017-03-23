@@ -1,32 +1,36 @@
 @extends('adminlte::page')
 
 @section('htmlheader_title')
-	Change Title here!
+    Tipos
+@endsection
+
+@section('contentheader_title')
+    Tipos
+@endsection
+
+@section('contentheader_description')
+    Editar
 @endsection
 
 
 @section('main-content')
 	<div class="container-fluid spark-screen">
 		<div class="row">
-			<div class="col-md-9 col-md-offset-1">
-
-				<div class="box box-success box-solid">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">Example box</h3>
-                        <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                        </div>
-                        <!-- /.box-tools -->
-                    </div>
-                    <!-- /.box-header -->
-                    <div class="box-body">
-                        Put your content here
-                    </div>
-                    <!-- /.box-body -->
+			<div class="col-md-12">
+                <div class="row">
+                    {!! Form::model($type, ['route'=>['tipos.update', 'id' => $type->id],'method'=>'put']) !!}
+                    @include('types.form') 
                 </div>
-
-			</div>
-		</div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="actions">
+                            <ul>
+                                <li><a href="{{ route('tipos.index') }}" class="btn btn-warning"><i class="fa fa-list-alt"></i> Listar</a></li>       
+                            </ul>
+                        </div>
+                    </div>
+                </div>                
+            </div>
+        </div>          
 	</div>
 @endsection

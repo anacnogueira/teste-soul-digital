@@ -71,7 +71,9 @@ class TypeController extends Controller
      */
     public function show($id)
     {
-        return view('types.show', compact('status'));
+        $type = $this->type->find($id);
+
+        return view('types.show', compact('type'));
     }
 
     /**
@@ -82,7 +84,9 @@ class TypeController extends Controller
      */
     public function edit($id)
     {
-        return view('types.edit', compact('status'));
+        $type = $this->type->find($id);
+
+        return view('types.edit', compact($type));
     }
 
     /**
@@ -94,7 +98,19 @@ class TypeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $type = $this->type->find($id);
+
+        $validator = $this->validates($request);
+
+        if ($validator->fails()){
+            return redirect()->route('tipos.edit',['id' => $id])
+            ->withErrors($validator)
+            ->withInput();           
+        }
+
+        $type->update($request->all());
+              
+        return redirect()->route('tipos.index');
     }
 
     /**
@@ -105,7 +121,10 @@ class TypeController extends Controller
      */
     public function destroy($id)
     {
-        //
+
+        $this->type->destroy($id);
+
+        return redirect()->route("tipos.index");
     }
 
     private function validates($request)
