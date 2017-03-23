@@ -155,7 +155,9 @@ class TicketController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->ticket->destroy($id);
+
+        return redirect()->route("tickets.index");
     }
 
     private function validates($request)
