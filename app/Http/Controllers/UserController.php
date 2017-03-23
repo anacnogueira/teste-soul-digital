@@ -102,7 +102,9 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = $this->user->find($id);
+        
+        return view('users.show', compact('user'));
     }
 
     /**
