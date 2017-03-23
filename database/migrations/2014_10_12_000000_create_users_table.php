@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->integer('type_id')->unsigned();
-            $table->string('image')->nullable;
+            $table->string('image')->nullable();
             $table->timestamps();
 
             $table->foreign('type_id')->references('id')->on('types');

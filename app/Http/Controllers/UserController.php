@@ -80,6 +80,18 @@ class UserController extends Controller
             ->withInput();           
         }
 
+        $data = $request->toArray();
+        $data['password'] = bcrypt($data['password']); 
+
+        //Upload Photo
+        if ($request->hasFile('file') && $request->file('file')->isValid()) {
+            $data['image'] = $this->manageFile->store($request, $request->input('name').' '.date('dmyHis'),"storage/users", '');
+        }
+        
+        $this->user->create($data);        
+        
+        return redirect()->route('usuarios.index');
+
     }
 
     /**
