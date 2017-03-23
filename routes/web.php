@@ -26,4 +26,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('tipos', 'TypeController');
     Route::resource('usuarios', 'UserController');
     Route::resource('tickets', 'TicketController');
+
+    //Perfil
+	Route::get('/settings', ['as' =>'usuarios.profile', 'uses' => 'UserController@profile']);
 });

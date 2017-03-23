@@ -137,8 +137,8 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         if (str_contains(URL::previous(),"settings")){
-            $failure_route = 'settings';
-            $success_route = 'settings';
+            $failure_route = 'usuarios.profile';
+            $success_route = 'usuarios.profile';
         } else {
             $failure_route = 'usuarios.edit';
             $success_route = 'usuarios.index';
@@ -191,7 +191,7 @@ class UserController extends Controller
         return redirect()->route("usuarios.index");
     }
 
-    public function settings()
+    public function profile()
     {
 
         $user = Auth::user();
