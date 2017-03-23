@@ -115,7 +115,16 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $types = [];
+        $data = $this->type->orderBy('name', 'asc')->get();
+        foreach ($data as $item) {
+            $types[$item->id] = $item->name;   
+        }  
+        
+
+        $user = $this->user->find($id);
+
+        return view('users.edit', compact('user', 'types'));
     }
 
     /**
