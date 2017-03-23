@@ -10,7 +10,6 @@ class TypeController extends Controller
 {
     private $type;
 
-
     /**
      * Class Constructor
      * @param    $type   
@@ -50,7 +49,7 @@ class TypeController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = $this->validates($request);
+        $validator = $this->validates($request->all());
 
         if ($validator->fails()){
             return redirect()->route('tipos.create')
@@ -100,7 +99,7 @@ class TypeController extends Controller
     {
         $type = $this->type->find($id);
 
-        $validator = $this->validates($request);
+        $validator = $this->validates($request->all());
 
         if ($validator->fails()){
             return redirect()->route('tipos.edit',['id' => $id])
@@ -129,8 +128,15 @@ class TypeController extends Controller
 
     private function validates($request)
     {
-        return Validator::make($request->all(), [
-            'name' => 'required', 
-        ]);
+        $rules = [
+            'name' => 'required|max:255',
+        ];
+
+        $messages = [
+            'required' => 'O campo é obrigatório.',
+            'max' => 'Tamanho máximo de 255 caracteres excedido',
+        ];
+
+        return Validator::make($request, $rules, $messages);       
     }
 }
