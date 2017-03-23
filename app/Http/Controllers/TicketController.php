@@ -45,6 +45,10 @@ class TicketController extends Controller
         }
 
         $tickets = $tickets->get();
+
+        for ($i = 0; $i <count($tickets); $i++) {
+            $tickets[$i]->status = $this->statuses[$tickets[$i]->status];
+        }
         
         return view('tickets.index', compact('tickets'));
     }
