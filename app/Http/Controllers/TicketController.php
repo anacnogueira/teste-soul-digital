@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Entities\Ticket;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 
 class TicketController extends Controller
@@ -71,7 +72,23 @@ class TicketController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = Auth::user();
+
+        $validator = $this->validates($request->all());
+
+        if ($validator->fails()){
+            return redirect()->route('tickets.create')
+            ->withErrors($validator)
+            ->withInput();           
+        }
+
+        $data = $request->toArray();
+        $data['user_id'] = $user->id;
+        $data['status'] = 'open';
+
+        $group = $this->ticket->create($data);
+ 
+        return redirect()->route('tickets.index');
     }
 
     /**
@@ -117,5 +134,21 @@ class TicketController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    private function validates($request)
+    {
+        $rules = [
+            'subject' => 'required|max:255',  
+            'description' => 'required',
+        ];
+
+
+        $messages = [
+            'required' => 'O campo é obrigatório.',
+            'max' => 'Tamanho máximo de 255 caracteres excedido',
+        ];
+
+        return Validator::make($request, $rules, $messages);
     }
 }
