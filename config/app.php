@@ -178,7 +178,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\ManageFileServiceProvider::class,
-
+        App\Providers\SettingsServiceProvider::class,
         /*
         * Acacha AdminLTE template provider
          */
