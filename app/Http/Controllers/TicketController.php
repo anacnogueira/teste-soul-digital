@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Gate;
 use Illuminate\Http\Request;
 use App\Entities\Ticket;
 
@@ -102,12 +103,15 @@ class TicketController extends Controller
      */
     public function show($id)
     {
-        $statuses = $this->statuses;
-        $ticket = $this->ticket
-        ->with('resposta')
-        ->find($id);
+        $ticket = $this->ticket->with('resposta')->find($id);
 
-        return view('tickets.show', compact('ticket','statuses'));
+        if (Gate::allows('ticket', $ticket)) {
+            $statuses = $this->statuses;            
+
+            return view('tickets.show', compact('ticket','statuses'));               
+        }
+
+        echo 'Não Autorizado';        
     }
 
     /**
@@ -120,7 +124,11 @@ class TicketController extends Controller
     {
         $ticket = $this->ticket->find($id);
 
-        return view('tickets.edit', compact('ticket'));
+        if (Gate::allows('ticket', $ticket)) {
+            return view('tickets.edit', compact('ticket'));
+        }    
+
+        echo 'Não Autorizado';
     }
 
     /**
@@ -134,17 +142,22 @@ class TicketController extends Controller
     {
         $ticket = $this->ticket->find($id);
 
-        $validator = $this->validates($request->all());
+        if (Gate::allows('ticket', $ticket)) {
+            $validator = $this->validates($request->all());
 
-        if ($validator->fails()){
-            return redirect()->route('tickets.edit',['id' => $id])
-            ->withErrors($validator)
-            ->withInput();           
-        }
+            if ($validator->fails()){
+                return redirect()->route('tickets.edit',['id' => $id])
+                ->withErrors($validator)
+                ->withInput();           
+            }
 
-        $ticket->update($request->all());
+            $ticket->update($request->all());
               
-        return redirect()->route('tickets.index');
+            return redirect()->route('tickets.index');
+             
+        } 
+
+        echo 'Não Autorizado';     
     }
 
     /**
@@ -155,9 +168,15 @@ class TicketController extends Controller
      */
     public function destroy($id)
     {
-        $this->ticket->destroy($id);
+        $ticket = $this->ticket->find($id);
 
-        return redirect()->route("tickets.index");
+        if (Gate::allows('ticket', $ticket)) {
+            $this->ticket->destroy($id);
+
+            return redirect()->route("tickets.index");
+        }  
+        
+        echo 'Não Autorizado';  
     }
 
     private function validates($request)

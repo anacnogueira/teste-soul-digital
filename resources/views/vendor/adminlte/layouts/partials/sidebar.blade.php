@@ -23,8 +23,10 @@
         <!-- Sidebar Menu -->
         <ul class="sidebar-menu">
             <!-- Optionally, you can add icons to the links -->
-            <li><a href="{{ route('tipos.index') }}"><i class='fa fa-link'></i> <span>Tipos de Usuários</span></a></li>
-            <li><a href="{{ route('usuarios.index') }}"><i class='fa fa-link'></i> <span>Usuários</span></a></li>
+            @if ($user->type->name == 'admin')
+                <li><a href="{{ route('tipos.index') }}"><i class='fa fa-link'></i> <span>Tipos de Usuários</span></a></li>
+                <li><a href="{{ route('usuarios.index') }}"><i class='fa fa-link'></i> <span>Usuários</span></a></li>
+            @endif
             <li><a href="{{ route('tickets.index') }}"><i class='fa fa-link'></i> <span>Tickets</span> </a>
                 
             </li>

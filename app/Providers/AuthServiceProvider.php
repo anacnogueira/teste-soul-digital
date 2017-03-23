@@ -25,6 +25,13 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        Gate::define('ticket', function ($user, $ticket) {
+            if ($user->type->name == 'cliente'){
+                return $user->id == $ticket->user_id;
+            }
+
+            return true;
+            
+        });        
     }
 }

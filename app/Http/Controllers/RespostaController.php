@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Gate;
 use Illuminate\Http\Request;
 use App\Entities\Resposta;
 use App\Entities\Ticket;
@@ -32,30 +33,36 @@ class RespostaController extends Controller
      */
     public function store(Request $request, $ticketId)
     {
-        $user = Auth::user();
+        $ticket = $this->ticket->find($ticketId);
 
-        $validator = $this->validates($request->all());
-      
-        if ($validator->fails()){
-            return redirect()->route('tickets.show',['ticket_id' => $ticketId])
-            ->withErrors($validator)
-            ->withInput();           
-        } 
+        if (Gate::allows('ticket', $ticket)) {
+            $user = Auth::user();
 
-        $data = $request->toArray();       
+            $validator = $this->validates($request->all());
+          
+            if ($validator->fails()){
+                return redirect()->route('tickets.show',['ticket_id' => $ticketId])
+                ->withErrors($validator)
+                ->withInput();           
+            } 
 
-        //Change Ticket status
-        $this->ticket->find($ticketId)->update([
-            'status' => $data['status']
-        ]);
+            $data = $request->toArray();       
 
-        $this->resposta->create([
-            'ticket_id' => $ticketId,
-            'user_id' => $user->id,
-            'description' => $data['description']
-        ]);
- 
-        return redirect()->route('tickets.show', ['ticket_id' => $ticketId]);
+            //Change Ticket status
+            $ticket->update([
+                'status' => $data['status']
+            ]);
+
+            $this->resposta->create([
+                'ticket_id' => $ticketId,
+                'user_id' => $user->id,
+                'description' => $data['description']
+            ]);
+     
+            return redirect()->route('tickets.show', ['ticket_id' => $ticketId]);
+        }
+
+        echo 'Não Autorizado';
     }
     
     private function validates($request)

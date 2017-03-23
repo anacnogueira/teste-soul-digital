@@ -44,16 +44,19 @@
                                             <tr role="row" class="">
                                                 <td>
                                                     {{ $ticket->subject }} <br>
-                                                    <div style="float:left; margin-right: 10px">
-                                                        {!! Form::open(['route' => ['tickets.destroy', $ticket->id], 'method' => 'delete', 'id'=>'form'.$ticket->id]) !!}
-                                                        {!! Form::button('<i class="fa fa-times"></i> Excluir', ['type' => 'submit','class' => 'btn btn-danger', 'onclick'=>"deleteConfirm(event, {$ticket->id})"]) !!}
-                                                        {!! Form::close() !!}
+                                                    @if ($user->type->name == 'admin' || $user->id == $ticket->user_id)
+                                                        <div style="float:left; margin-right: 10px">
+                                                            {!! Form::open(['route' => ['tickets.destroy', $ticket->id], 'method' => 'delete', 'id'=>'form'.$ticket->id]) !!}
+                                                            {!! Form::button('<i class="fa fa-times"></i> Excluir', ['type' => 'submit','class' => 'btn btn-danger', 'onclick'=>"deleteConfirm(event, {$ticket->id})"]) !!}
+                                                            {!! Form::close() !!}
+                                                            &nbsp; &nbsp;
+                                                        </div>
+
+                                                        <a href="{{ route('tickets.edit',['id' => $ticket->id]) }}" class='btn btn-warning'><i class="fa fa-edit"></i> Editar</a>
                                                         &nbsp; &nbsp;
-                                                    </div>
-                                                    <a href="{{ route('tickets.edit',['id' => $ticket->id]) }}" class='btn btn-warning'><i class="fa fa-edit"></i> Editar</a>
-                                                    &nbsp; &nbsp;
-                                                    <a href="{{ route('tickets.show',['id' => $ticket->id]) }}" class ='btn btn-primary'><i class="fa fa-eye"></i> Responder</a>
-                                                   &nbsp; &nbsp;
+                                                        <a href="{{ route('tickets.show',['id' => $ticket->id]) }}" class ='btn btn-primary'><i class="fa fa-eye"></i> Responder</a>
+                                                       &nbsp; &nbsp;
+                                                   @endif
                                                 </td>
                                                 <td>{{ $ticket->user->name }}</td>
                                                 <td>{{ $ticket->created_at }}</td>
