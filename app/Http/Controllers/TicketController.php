@@ -13,6 +13,7 @@ class TicketController extends Controller
 {
     
     private $ticket;
+    private $resposta;
 
     private $statuses = [
         'open'=>'Aberto', 
@@ -86,7 +87,9 @@ class TicketController extends Controller
         $data['user_id'] = $user->id;
         $data['status'] = 'open';
 
-        $group = $this->ticket->create($data);
+        $this->ticket->create($data);
+
+        //Todo: Avisar admins sobre o ticket por e-mail
  
         return redirect()->route('tickets.index');
     }
@@ -99,7 +102,10 @@ class TicketController extends Controller
      */
     public function show($id)
     {
-        //
+        $statuses = $this->statuses;
+        $ticket = $this->ticket->with('resposta')->find($id);
+
+        return view('tickets.show', compact('ticket','statuses'));
     }
 
     /**

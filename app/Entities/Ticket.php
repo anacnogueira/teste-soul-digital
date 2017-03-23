@@ -19,13 +19,13 @@ class Ticket extends Model
 
     public function resposta()
     {
-        return $this->hasMany('App\Entities\Reposta');
+        return $this->hasMany('App\Entities\Resposta');
     }
 
     public function getCreatedAtAttribute($value) {
         $date = new \Carbon\Carbon($value);
         $date->setLocale('pt_BR');
-        return $date->format('d/m/Y');
+        return $date->format('d/m/Y H:i:s');
     }
 
 }
