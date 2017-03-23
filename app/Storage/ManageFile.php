@@ -15,9 +15,10 @@ class ManageFile implements ManageFileInterface
         if(!empty($oldFile)){
             $this->delete($destinationPath, $oldFile);
         }
-        $extension = $file->getClientOriginalExtension();
+
+        $extension = $file->file->extension();
         $filename = str_slug($name).'.'.$extension;
-        $file->move($destinationPath, $filename);           
+        $file->file->storeAs($destinationPath, $filename);           
         
         return $filename;
 	}

@@ -19,7 +19,6 @@ class UserController extends Controller
     private $user;
     private $type;
 
-
     /**
      * Class Constructor
      * @param    $manageFile   
@@ -32,7 +31,6 @@ class UserController extends Controller
         $this->user = $user;
         $this->type = $type;
     }
-
 
     /**
      * Display a listing of the resource.
@@ -53,7 +51,6 @@ class UserController extends Controller
      */
     public function create()
     {
-        
         $types = [];
         $data = $this->type->orderBy('name', 'asc')->get();
         foreach ($data as $item) {
@@ -71,7 +68,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = $this->validatesStore($request->all());
+        $validator = $this->validates($request->all(), 'store');
 
         if ($validator->fails()){
             return redirect()->route('usuarios.create')
@@ -84,7 +81,7 @@ class UserController extends Controller
 
         //Upload Photo
         if ($request->hasFile('file') && $request->file('file')->isValid()) {
-            $data['image'] = $this->manageFile->store($request, $request->input('name').' '.date('dmyHis'),"storage/users", '');
+            $data['image'] = $this->manageFile->store($request, $request->input('name').' '.date('dmyHis'),"public/users", '');
         }
         
         $this->user->create($data);        
@@ -118,8 +115,7 @@ class UserController extends Controller
         $data = $this->type->orderBy('name', 'asc')->get();
         foreach ($data as $item) {
             $types[$item->id] = $item->name;   
-        }  
-        
+        }          
 
         $user = $this->user->find($id);
 
@@ -145,7 +141,7 @@ class UserController extends Controller
 
         $user = $this->user->find($id);
 
-        $validator = $this->validatesUpdate($request->all());
+        $validator = $this->validates($request->all(), 'update');
 
         if ($validator->fails()){
             session()->flash('error','Não foi possível atualizar o usuário.');
@@ -163,7 +159,7 @@ class UserController extends Controller
 
         //Upload Photo
         if ($request->hasFile('file') && $request->file('file')->isValid()) {
-            $data['image'] = $this->manageFile->store($request, $request->input('name').' '.date('dmYHis'), "storage/users", $request->input('oldfile'));
+            $data['image'] = $this->manageFile->store($request, $request->input('name').' '.date('dmYHis'), "public/users", $request->input('oldfile'));
         }
             
         $user->update($data);
@@ -183,7 +179,7 @@ class UserController extends Controller
         $user = $this->user->find($id);
 
         //Delete the file
-        $this->manageFile->delete('storage/users', $user->image);
+        $this->manageFile->delete('public/users', $user->image);
 
         $user->delete();
         
@@ -202,20 +198,19 @@ class UserController extends Controller
     }
 
 
-   private function validatesStore($request)
-   {    
-
+    private function validates($request, $action)
+    {
+        
         $rules = [
-            'name' => 'required',  
-            'email' => 'required|unique:users|email',
-            'password' => 'required|min:6|regex:/^(?=.*[a-zA-Z])(?=.*[a-zA-Z])(?=.*\d).+$/',
+            'name' => 'required|max:255',
+            'email' => $action == 'store' ? 'required|unique:users|email|max:255' : 'required|email|max:255',
+            'password' => $action == 'store' ? 'required|min:6|regex:/^(?=.*[a-zA-Z])(?=.*[a-zA-Z])(?=.*\d).+$/' : 'nullable|min:6|regex:/^(?=.*[a-zA-Z])(?=.*[a-zA-Z])(?=.*\d).+$/',
             'type_id' => 'required',
-
         ];
-
 
         $messages = [
             'required' => 'O campo é obrigatório.',
+            'max' => 'Tamanho máximo de 255 caracteres excedido',
             'email.unique' => 'E-mail já cadastrado',
             'email.email' => 'Forneça um formato de e-mail válido',
             'password.min' => 'A senha deve conter no minino 6 caracteres',
@@ -223,28 +218,13 @@ class UserController extends Controller
         ];
 
         return Validator::make($request, $rules, $messages);
-   }
-
-   private function validatesUpdate($request)
-   {    
-
-        $rules = [
-            'name' => 'required',  
-            'email' => 'required|email',
-            'password' => 'nullable|min:6|regex:/^(?=.*[a-zA-Z])(?=.*[a-zA-Z])(?=.*\d).+$/',
-            'type_id' => 'required',
-
-        ];
+    }  
 
 
-        $messages = [
-            'required' => 'O campo é obrigatório.',
-            'email.unique' => 'E-mail já cadastrado',
-            'email.email' => 'Forneça um formato de e-mail válido',
-            'password.min' => 'A senha deve conter no minino 6 caracteres',
-            'password.regex' => 'A senha deve conter ao menos uma letra e um número'
-        ];
+    public function getImage($filename)
+    {
+        $file = Storage::get($filename);
 
-        return Validator::make($request, $rules, $messages);
-   }
+        return new Response($file, 200);
+    }
 }

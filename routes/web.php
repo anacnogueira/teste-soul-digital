@@ -25,6 +25,12 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('tipos', 'TypeController');
     Route::resource('usuarios', 'UserController');
+
+    Route::get('storage/users/{filename}', [
+        'as'   => 'user.image',
+        'uses' => 'UserController@getImage',
+    ]);
+
     Route::resource('tickets', 'TicketController');
     
     

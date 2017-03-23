@@ -8,7 +8,7 @@
         @if (! Auth::guest())
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="{{ $user_img_path }}" class="img-circle" alt="User Image" />
+                    <img src="{{ route('user.image', ['filename' => $user->image]) }}" class="img-circle" alt="User Image" />
                 </div>
                 <div class="pull-left info">
                     <p>{{ Auth::user()->name }}</p>

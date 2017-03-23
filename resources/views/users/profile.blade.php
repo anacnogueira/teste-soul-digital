@@ -31,7 +31,7 @@
         <div class="col-md-3">
             <div class="box box-primary">
                 <div class="box-body box-profile">
-                    <img src="{{ asset($user->img_path) }}" class="profile-user-img img-responsive img-circle" >
+                    <img src="{{ route('user.image', ['filename' => $user->image]) }}" class="profile-user-img img-responsive img-circle" >
                     <h3 class="profile-username text-center">{{ $user->name }}</h3>                 
                 </div>
             </div>
