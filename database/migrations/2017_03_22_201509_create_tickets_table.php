@@ -18,6 +18,7 @@ class CreateTicketsTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->string('subject');
             $table->text('description');
+            $table->enum('status', ['open', 'pending', 'closed']);
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');

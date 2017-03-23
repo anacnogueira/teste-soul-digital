@@ -16,10 +16,12 @@ class CreateRepostasTable extends Migration
         Schema::create('respostas', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('ticket_id')->unsigned();
+            $table->integer('user_id')->unsigned();
             $table->text('description');
             $table->timestamps();
 
             $table->foreign('ticket_id')->references('id')->on('tickets');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
