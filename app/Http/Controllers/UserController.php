@@ -181,7 +181,14 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = $this->user->find($id);
+
+        //Delete the file
+        $this->manageFile->delete('storage/users', $user->image);
+
+        $user->delete();
+        
+        return redirect()->route("usuarios.index");
     }
 
     public function settings()
