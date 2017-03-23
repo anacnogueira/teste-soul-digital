@@ -3,6 +3,7 @@
 namespace App\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Ticket extends Model
 {
@@ -11,7 +12,7 @@ class Ticket extends Model
     ];
 
 
-    public function type()
+    public function user()
     {
         return $this->belongsTo('App\Entities\User');
     }
@@ -19,6 +20,12 @@ class Ticket extends Model
     public function resposta()
     {
         return $this->hasMany('App\Entities\Reposta');
+    }
+
+    public function getCreatedAtAttribute($value) {
+        $date = new \Carbon\Carbon($value);
+        $date->setLocale('pt_BR');
+        return $date->format('d/m/Y');
     }
 
 }
