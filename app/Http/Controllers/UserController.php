@@ -53,7 +53,15 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        
+        $types = [];
+        $data = $this->type->orderBy('name', 'asc')->get();
+        foreach ($data as $item) {
+            $types[$item->id] = $item->name;   
+        }
+
+
+        return view('users.create', compact('types'));
     }
 
     /**
@@ -64,7 +72,14 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = $this->validatesStore($request->all());
+
+        if ($validator->fails()){
+            return redirect()->route('usuarios.create')
+            ->withErrors($validator)
+            ->withInput();           
+        }
+
     }
 
     /**
@@ -117,4 +132,28 @@ class UserController extends Controller
 
 
     }
+
+
+   private function validatesStore($request)
+   {    
+
+        $rules = [
+            'name' => 'required',  
+            'email' => 'required|unique:users|email',
+            'password' => 'required|min:6|regex:/^(?=.*[a-zA-Z])(?=.*[a-zA-Z])(?=.*\d).+$/',
+            'type_id' => 'required',
+
+        ];
+
+
+        $messages = [
+            'required' => 'O campo é obrigatório.',
+            'email.unique' => 'E-mail já cadastrado',
+            'email.email' => 'Forneça um formato de e-mail válido',
+            'password.min' => 'A senha deve conter no minino 6 caracteres',
+            'password.regex' => 'A senha deve conter ao menos uma letra e um número'
+        ];
+
+        return Validator::make($request, $rules, $messages);
+   }
 }
