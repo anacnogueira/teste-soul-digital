@@ -108,7 +108,7 @@ class TicketController extends Controller
             $data['email'] = $user->email;
 
             Mail::send('emails.tickets.store', ['data' => $data], function($m) use ($data){
-                $m->from(env('MAIL_USERNAME'), 'Sistema de Ticket');
+                $m->from(env('MAIL_FROM_ADDRESS'), 'Sistema de Ticket');
                 $m->to($data['email'])->subject('Novo ticket criado');    
             });
         }

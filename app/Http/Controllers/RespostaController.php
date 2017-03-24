@@ -68,7 +68,7 @@ class RespostaController extends Controller
             $data['description'] = $resposta->description;
 
             Mail::send('emails.respostas.store', ['data' => $data], function($m) use ($data){
-                $m->from(env('MAIL_USERNAME'), 'Sistema de Ticket');
+                $m->from(env('MAIL_FROM_ADDRESS'), 'Sistema de Ticket');
                 $m->to($data['email'])->subject('Resposta ao ticket #'.$data['ticket_id']);    
             });
 
