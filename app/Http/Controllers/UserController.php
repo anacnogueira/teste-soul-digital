@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Entities\User;
 use App\Entities\Type;
 
-use redeJacarei\Http\Requests;
+use App\Http\Requests;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
