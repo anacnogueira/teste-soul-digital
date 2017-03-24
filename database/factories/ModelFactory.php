@@ -32,7 +32,7 @@ $factory->define(App\Entities\User::class, function (Faker\Generator $faker) {
         'password' => bcrypt(123456),
         'remember_token' => str_random(10),
         'image' => 'image.jpg',
-        'type_id' => rand(1,2)
+        'type_id' => 1
     ];
 });
 
