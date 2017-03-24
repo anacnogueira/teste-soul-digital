@@ -6,6 +6,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link href="{{ asset('/css/all.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('/css/admin.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('/plugins/dataTables.bootstrap.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('/plugins/sweetalert.css') }}" rel="stylesheet" type="text/css" />
 
