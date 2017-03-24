@@ -5,6 +5,7 @@
 /vendor
 /.idea
 /.phpintel
+/bkp-assets
 Homestead.json
 Homestead.yaml
 .env
