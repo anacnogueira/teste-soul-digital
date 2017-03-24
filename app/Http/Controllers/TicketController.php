@@ -3,18 +3,22 @@
 namespace App\Http\Controllers;
 
 use Gate;
+use Mail;
 use Illuminate\Http\Request;
 use App\Entities\Ticket;
+use App\Entities\Type;
+use App\Entities\User;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-
 
 class TicketController extends Controller
 {
     
     private $ticket;
-    private $resposta;
+    private $type;
+    private $user;
+    
 
     private $statuses = [
         'open'=>'Aberto', 
@@ -27,11 +31,12 @@ class TicketController extends Controller
      * @param    $ticket   
      * @param    $resposta   
      */
-    public function __construct(Ticket $ticket)
+    public function __construct(Ticket $ticket, Type $type, User $user)
     {
         $this->ticket = $ticket;
+        $this->type = $type;
+        $this->user = $user;
     }
-
 
     /**
      * Display a listing of the resource.
@@ -88,9 +93,26 @@ class TicketController extends Controller
         $data['user_id'] = $user->id;
         $data['status'] = 'open';
 
-        $this->ticket->create($data);
+        $ticket = $this->ticket->create($data);
 
-        //Todo: Avisar admins sobre o ticket por e-mail
+        $type = $this->type->where('name','admin')->first();
+        $users = $this->user->where('type_id',$type->id)->get();
+
+        $data = [];
+        $data['ticket_id'] = $ticket->id;
+        $data['user_name'] = $ticket->user->name;
+        $data['created_at'] = $ticket->created_at;
+        $data['subject'] = $ticket->subject;
+        $data['description'] = $ticket->description;
+
+        foreach ($users as $user) {
+            $data['email'] = $user->email;
+
+            Mail::send('emails.tickets.store', ['data' => $data], function($m) use ($data){
+                $m->from('contato@redejacarei.com', 'Sistema de Ticket');
+                $m->to($data['email'])->subject('Novo ticket criado');    
+            });
+        }
  
         return redirect()->route('tickets.index');
     }

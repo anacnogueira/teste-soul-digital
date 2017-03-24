@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Gate;
+use Mail;
 use Illuminate\Http\Request;
 use App\Entities\Resposta;
 use App\Entities\Ticket;
@@ -58,6 +59,8 @@ class RespostaController extends Controller
                 'user_id' => $user->id,
                 'description' => $data['description']
             ]);
+
+            //Send Email
      
             return redirect()->route('tickets.show', ['ticket_id' => $ticketId]);
         }

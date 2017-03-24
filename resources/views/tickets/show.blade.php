@@ -22,6 +22,10 @@
                         <div class="box box-danger">
                             <div class="box-body"> 
                                 <div class="form-group">
+                                    {!! Form::label('id', 'ID') !!} 
+                                    <div class="form-control">{{ $ticket->id }}</div>
+                                </div>
+                                <div class="form-group">
                                     {!! Form::label('subject', 'Assunto') !!} 
                                     <div class="form-control">{{ $ticket->subject }}</div>
                                 </div>          

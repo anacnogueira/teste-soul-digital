@@ -33,6 +33,7 @@
                                     <table id="ticket" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="table_info">
                                         <thead>
                                             <tr role="row">
+                                                <th class="sorting_asc" tabindex="0" aria-controls="order" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Ordernar pelo ID do Ticket">ID</th>
                                                 <th class="sorting_asc" tabindex="0" aria-controls="order" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Ordernar pelo assunto do Ticket">Assunto</th>
                                                 <th class="sorting" tabindex="0" aria-controls="order" rowspan="1" colspan="1" aria-label="Ordernar pelo criador do ticket">Criado por</th>
                                                 <th class="sorting" tabindex="0" aria-controls="order" rowspan="1" colspan="1" aria-label="Ordernar pela data do ticket">Data</th>
@@ -42,6 +43,7 @@
                                         <tbody>
                                              @foreach ($tickets as $ticket)
                                             <tr role="row" class="">
+                                                <td>{{ $ticket->id }}</td>
                                                 <td>
                                                     {{ $ticket->subject }} <br>
                                                     @if ($user->type->name == 'admin' || $user->id == $ticket->user_id)
@@ -66,6 +68,7 @@
                                         </tbody>
                                         <tfoot>
                                           <tr>
+                                            <th rowspan="1" colspan="1">ID</th>
                                             <th rowspan="1" colspan="1">Assunto</th>
                                             <th rowspan="1" colspan="1">Criado por</th>
                                             <th rowspan="1" colspan="1">Data</th>
