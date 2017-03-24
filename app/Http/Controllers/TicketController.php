@@ -101,7 +101,6 @@ class TicketController extends Controller
         $data = [];
         $data['ticket_id'] = $ticket->id;
         $data['user_name'] = $ticket->user->name;
-        $data['created_at'] = $ticket->created_at;
         $data['subject'] = $ticket->subject;
         $data['description'] = $ticket->description;
 
@@ -109,7 +108,7 @@ class TicketController extends Controller
             $data['email'] = $user->email;
 
             Mail::send('emails.tickets.store', ['data' => $data], function($m) use ($data){
-                $m->from('contato@redejacarei.com', 'Sistema de Ticket');
+                $m->from(env('MAIL_USERNAME'), 'Sistema de Ticket');
                 $m->to($data['email'])->subject('Novo ticket criado');    
             });
         }

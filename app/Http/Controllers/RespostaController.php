@@ -54,13 +54,24 @@ class RespostaController extends Controller
                 'status' => $data['status']
             ]);
 
-            $this->resposta->create([
+            $resposta = $this->resposta->create([
                 'ticket_id' => $ticketId,
                 'user_id' => $user->id,
                 'description' => $data['description']
             ]);
 
             //Send Email
+            $data = [];
+            $data['email'] = $resposta->user->email;
+            $data['ticket_id'] = $resposta->ticket_id;
+            $data['user_name'] = $resposta->user->name;
+            $data['description'] = $resposta->description;
+
+            Mail::send('emails.respostas.store', ['data' => $data], function($m) use ($data){
+                $m->from(env('MAIL_USERNAME'), 'Sistema de Ticket');
+                $m->to($data['email'])->subject('Resposta ao ticket #'.$data['ticket_id']);    
+            });
+
      
             return redirect()->route('tickets.show', ['ticket_id' => $ticketId]);
         }
